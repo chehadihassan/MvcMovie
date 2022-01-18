@@ -8,7 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<MvcMovieContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MvcMovieContext")));
 
-// Add services to the container.
+// Add services to the container. 
+//test
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
