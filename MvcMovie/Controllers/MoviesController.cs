@@ -23,7 +23,7 @@ namespace MvcMovie.Controllers
         // GET: Movies
         public IActionResult Index(string movieGenre, string searchString)
         {
-            // Use LINQ to get list of genres.
+            // Use LINQ to get list of genres.`
             IQueryable<string> genreQuery = from m in _context.Movie
                                             orderby m.Genre
                                             select m.Genre;
@@ -39,14 +39,16 @@ namespace MvcMovie.Controllers
             {
                 movies = movies.Where(x => x.Genre == movieGenre);
             }
-
             var movieGenreVM = new MovieGenreViewModel
             {
                 Genres = new SelectList(genreQuery.Distinct().ToList()),
                 Movies = movies.ToList()
             };
+
             return View(movieGenreVM);
         }
+
+
 
         // GET: Movies/Details/5
         public IActionResult Details(int? id)
@@ -65,7 +67,6 @@ namespace MvcMovie.Controllers
 
             return View(movie);
         }
-
         // GET: Movies/Create
         public IActionResult Create()
         {
@@ -142,15 +143,20 @@ namespace MvcMovie.Controllers
             return View(movie);
         }
 
+        private bool MovieExists(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         // GET: Movies/Delete/5
-        public IActionResult Delete(int? id)
+        public  IActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var movie = _context.Movie
+            var movie =  _context.Movie
                 .FirstOrDefault(m => m.Id == id);
             if (movie == null)
             {
@@ -165,22 +171,11 @@ namespace MvcMovie.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            var movie = _context.Movie.Find(id);
+            var movie =  _context.Movie.Find(id);
             _context.Movie.Remove(movie);
-            _context.SaveChanges();
+             _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool MovieExists(int id)
-        {
-            return _context.Movie.Any(e => e.Id == id);
-        }
-
-        [HttpPost]
-        public string Index(string searchString, bool notUsed)
-        {
-            return "From [HttpPost]Index: filter on " + searchString;
-        }
     }
-
 }
